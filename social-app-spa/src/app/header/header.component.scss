@@ -5,4 +5,10 @@ mat-toolbar {
 
 .toolbar-content {
   width: 100%;
+
+  .menu {
+    span {
+      cursor: pointer;
+    }
+  }
 }
