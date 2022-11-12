@@ -9,7 +9,7 @@ using SocialApp.DataAccess.Entities;
 
 namespace SocialApp.API.Extensions;
 
-public static class AddIdentityExtensions
+public static class AddIdentityServicesExtensions
 {
     public static IServiceCollection AddIdentityServices(this IServiceCollection services,
         IConfiguration config)
@@ -39,7 +39,6 @@ public static class AddIdentityExtensions
         services.AddAuthorization(opt =>
         {
             opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-            opt.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
         });
 
         return services;

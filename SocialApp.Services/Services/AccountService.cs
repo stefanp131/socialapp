@@ -27,7 +27,7 @@ public class AccountService : IAccountService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<AccountDto> Login(LoginDto loginDto)
+    public async Task<AccountDto> LoginAsync(LoginDto loginDto)
     {
         var user = await this._userManager.Users
             .SingleOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
@@ -41,8 +41,42 @@ public class AccountService : IAccountService
 
         return new AccountDto()
         {
-            Username = user.UserName,
             Token = await this._tokenGenerator.CreateToken(user),
         };
+    }
+
+    public async Task<AccountDto> RegisterAsync(RegisterDto registerDto)
+    {
+        if (await UserExists(registerDto.Username)) throw new RegistrationFailed("Username taken");
+
+        var user = this._mapper.Map<AppUser>(registerDto);
+
+        user.UserName = registerDto.Username.ToLower();
+
+        var result = await this._userManager.CreateAsync(user, registerDto.Password);
+
+        if (!result.Succeeded) throw new RegistrationFailed(result.Errors.ToString());
+
+        var roleResult = await this._userManager.AddToRoleAsync(user, "Member");
+
+        if (!roleResult.Succeeded) throw new RegistrationFailed(result.Errors.ToString());
+
+        return new AccountDto()
+        {
+            Token = await this._tokenGenerator.CreateToken(user),
+        };
+    }
+
+    public async Task UpdateProfileAsync(int id, UpdateProfileDto updateProfile)
+    {
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+        _mapper.Map(updateProfile, user);
+        
+        await _unitOfWork.Complete();
+    }
+
+    private async Task<bool> UserExists(string username)
+    {
+        return await this._userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
     }
 }

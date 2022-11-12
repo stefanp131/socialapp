@@ -6,5 +6,7 @@ namespace Services.Interfaces;
 
 public interface IAccountService
 {
-    Task<AccountDto> Login(LoginDto loginDto);
+    Task<AccountDto> LoginAsync(LoginDto loginDto);
+    Task UpdateProfileAsync(int id, UpdateProfileDto updateProfile);
+    Task<AccountDto> RegisterAsync(RegisterDto registerDto);
 }
