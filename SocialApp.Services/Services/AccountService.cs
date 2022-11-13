@@ -71,8 +71,16 @@ public class AccountService : IAccountService
     {
         var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
         _mapper.Map(updateProfile, user);
-        
+
         await _unitOfWork.Complete();
+    }
+
+    public async Task<ProfileDto> GetProfileAsync(int id)
+    {
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+        var profileDto = _mapper.Map<ProfileDto>(user);
+
+        return profileDto;
     }
 
     private async Task<bool> UserExists(string username)

@@ -52,4 +52,13 @@ public class AccountController : BaseApiController
 
         return Ok();
     }
+    
+    [Authorize()]
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ProfileDto>> GetProfile(int id)
+    {
+        var profileDto = await _accountService.GetProfileAsync(id);
+
+        return Ok(profileDto);
+    }
 }

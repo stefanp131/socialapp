@@ -1,1 +1,21 @@
-<p>profile works!</p>
+<mat-card class="image">
+  <mat-card-content>
+    <form fxLayout="column" fxLayoutAlign="center center" *ngIf="profileForm" [formGroup]="profileForm"
+      (ngSubmit)="(!!this.selectedFile || this.profileForm.dirty) && updateProfile()">
+      <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+      <input hidden (change)="onFileSelected($event)" #fileInput type="file">
+      <span class="file-name">{{selectedFile?.name}}</span> {{profileForm.dirty || !!selectedFile}}
+      <img [src]="imageSrc" style="width: 20rem; height: 20rem; margin:1rem auto; object-fit: cover; border-radius: 50%"
+        alt="Profile picture">
+
+      <div class="NgxEditor__Wrapper">
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+        </ngx-editor-menu>
+        <ngx-editor [editor]="editor" name="description" formControlName="description"> </ngx-editor>
+      </div>
+      <button mat-raised-button [disabled]="profileForm.pristine && !selectedFile">Update
+        Profile</button>
+    </form>
+
+  </mat-card-content>
+</mat-card>

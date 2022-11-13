@@ -1,12 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  map,
-} from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Profile } from '../_models/Profile';
 import { User } from '../_models/User';
-
 
 @Injectable({
   providedIn: 'root',
@@ -57,15 +54,11 @@ export class AccountService {
     return JSON.parse(atob(token.split('.')[1]));
   }
 
-  updateProfilePicture(id: number, profilePicture: string) {
-    return this.http.patch(`${this.baseUrl}account/${id.toString()}`, {
-      profilePicture: profilePicture,
-    });
+  updateProfile(id: number, profile: Profile) {
+    return this.http.patch(`${this.baseUrl}account/${id.toString()}`, profile);
   }
 
-  getProfilePicture(id: number) {
-    return this.http.get(
-      this.baseUrl + 'account/' + this.currentUserSource.value.id + '/picture'
-    );
+  getProfile(id: number): Observable<Profile> {
+    return this.http.get<Profile>(`${this.baseUrl}account/${id.toString()}`);
   }
 }

@@ -9,10 +9,11 @@ import { FooterComponent } from './footer/footer.component';
 import { SharedModule } from './_modules/shared/shared.module';
 import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MessageBoardComponent } from './social/message-board/message-board.component';
 import { ProfileComponent } from './social/profile/profile.component';
 import { HomeComponent } from './home/home.component';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, LoginComponent, RegisterComponent, MessageBoardComponent, ProfileComponent, HomeComponent],
@@ -23,7 +24,7 @@ import { HomeComponent } from './home/home.component';
     HttpClientModule,
     SharedModule,
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
