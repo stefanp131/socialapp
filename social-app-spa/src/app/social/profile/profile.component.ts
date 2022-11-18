@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Editor, schema, toDoc, Toolbar } from 'ngx-editor';
+import { Editor, schema, toDoc, toHTML, Toolbar } from 'ngx-editor';
 import { Profile } from 'src/app/_models/Profile';
 import { AccountService } from 'src/app/_services/account.service';
 
@@ -14,6 +14,8 @@ export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   selectedFile: any = null;
   imageSrc;
+  description;
+  isReadonly = true;
 
   editor: Editor;
   toolbar: Toolbar = [
@@ -28,7 +30,7 @@ export class ProfileComponent implements OnInit {
   ];
 
   constructor(
-    private accountService: AccountService,
+    public accountService: AccountService,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar
   ) {}
@@ -45,6 +47,10 @@ export class ProfileComponent implements OnInit {
       .subscribe((data) => {
         this.imageSrc =
           data?.profilePicture ?? '../../../assets/empty-profile-pic.png';
+
+        this.description = toHTML(JSON.parse(
+          data?.description) ?? JSON.stringify(toDoc(''))
+        );
 
         this.profileForm = this.formBuilder.group({
           description: [
@@ -65,6 +71,7 @@ export class ProfileComponent implements OnInit {
       .updateProfile(this.accountService.currentUserSource.value.id, profile)
       .subscribe({
         next: () => {
+          this.getProfile();
           this.snackBar.open('Successfully updated the profile!', 'Dismiss', {
             duration: 5000,
           });
@@ -75,6 +82,10 @@ export class ProfileComponent implements OnInit {
           });
         },
       });
+  }
+
+  toggleReadonly() {
+    this.isReadonly = !this.isReadonly;
   }
 
   async onFileSelected(event: any) {

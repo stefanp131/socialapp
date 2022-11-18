@@ -1,21 +1,38 @@
-<mat-card class="image">
+<mat-card class="image" *ngIf="!isReadonly; else readonly">
+  <mat-card-title>{{accountService.currentUserSource.value.username}}'s Profile</mat-card-title>
   <mat-card-content>
-    <form fxLayout="column" fxLayoutAlign="center center" *ngIf="profileForm" [formGroup]="profileForm"
-      (ngSubmit)="(!!this.selectedFile || this.profileForm.dirty) && updateProfile()">
+    <button mat-raised-button (click)="toggleReadonly()">Enable readonly</button>
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1rem" *ngIf="profileForm"
+      [formGroup]="profileForm" (ngSubmit)="(!!this.selectedFile || this.profileForm.dirty) && updateProfile()">
       <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
       <input hidden (change)="onFileSelected($event)" #fileInput type="file">
-      <span class="file-name">{{selectedFile?.name}}</span> {{profileForm.dirty || !!selectedFile}}
+      <span class="file-name">{{selectedFile?.name}}</span>
       <img [src]="imageSrc" style="width: 20rem; height: 20rem; margin:1rem auto; object-fit: cover; border-radius: 50%"
         alt="Profile picture">
-
       <div class="NgxEditor__Wrapper">
         <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
         </ngx-editor-menu>
-        <ngx-editor [editor]="editor" name="description" formControlName="description"> </ngx-editor>
+        <ngx-editor [editor]="editor" [placeholder]="'Insert description about yourself...'" name="description" formControlName="description"> </ngx-editor>
       </div>
       <button mat-raised-button [disabled]="profileForm.pristine && !selectedFile">Update
         Profile</button>
     </form>
-
   </mat-card-content>
 </mat-card>
+
+<ng-template #readonly>
+  <mat-card class="image">
+    <mat-card-title>{{accountService.currentUserSource.value.username}}'s Profile</mat-card-title>
+    <mat-card-content>
+      <button mat-raised-button (click)="toggleReadonly()">Enable edit</button>
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <img [src]="imageSrc"
+          style="width: 20rem; height: 20rem; margin:1rem auto; object-fit: cover; border-radius: 50%"
+          alt="Profile picture">        
+      </div>
+      <span>Description:</span>
+      <div [innerHTML]="description">
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
