@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SocialApp.DataAccess.Data;
@@ -11,9 +12,10 @@ using SocialApp.DataAccess.Data;
 namespace SocialApp.DataAccess.Migrations
 {
     [DbContext(typeof(SocialAppContext))]
-    partial class SocialAppContextModelSnapshot : ModelSnapshot
+    [Migration("20221208151111_AddLikes")]
+    partial class AddLikes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

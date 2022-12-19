@@ -9,10 +9,10 @@ namespace SocialApp.DataAccess.Data;
 public class SocialAppContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>,
     AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
 {
+    public DbSet<UserLike> Likes { get; set; }
 
     public SocialAppContext(DbContextOptions options) : base(options)
     {
-
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -33,5 +33,18 @@ public class SocialAppContext : IdentityDbContext<AppUser, AppRole, int, Identit
             .WithOne(u => u.Role)
             .HasForeignKey(ur => ur.RoleId)
             .IsRequired();
+
+
+        builder.Entity<UserLike>()
+            .HasOne(s => s.SourceUser)
+            .WithMany(l => l.LikedUsers)
+            .HasForeignKey(s => s.SourceUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<UserLike>()
+            .HasOne(s => s.TargetUser)
+            .WithMany(l => l.LikedByUsers)
+            .HasForeignKey(s => s.TargetUserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
