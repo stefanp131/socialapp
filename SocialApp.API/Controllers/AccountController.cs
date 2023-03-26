@@ -24,12 +24,12 @@ public class AccountController : BaseApiController
             var accountDto = await _accountService.LoginAsync(loginDto);
             return Ok(accountDto);
         }
-        catch(BadCredentialsException)
+        catch (BadCredentialsException)
         {
             return Unauthorized("Wrong credentials");
         }
     }
-    
+
     [HttpPost("register")]
     public async Task<ActionResult<AccountDto>> Register(RegisterDto registerDto)
     {
@@ -38,12 +38,12 @@ public class AccountController : BaseApiController
             var accountDto = await _accountService.RegisterAsync(registerDto);
             return Ok(accountDto);
         }
-        catch(RegistrationFailed ex)
+        catch (RegistrationFailed ex)
         {
             return BadRequest("RegistrationFailed " + ex.Message);
         }
     }
-    
+
     [Authorize()]
     [HttpPatch("{id}")]
     public async Task<ActionResult> UpdateProfile(int id, [FromBody] UpdateProfileDto updateProfileDto)
@@ -52,7 +52,7 @@ public class AccountController : BaseApiController
 
         return Ok();
     }
-    
+
     [Authorize()]
     [HttpGet("{id}")]
     public async Task<ActionResult<ProfileDto>> GetProfile(int id)

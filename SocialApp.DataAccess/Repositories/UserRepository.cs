@@ -26,13 +26,4 @@ public class UserRepository : IUsersRepository
     {
         return await _context.Users.ToListAsync();
     }
-
-    public async Task CreateLikeAsync(int sourceUserId, int targetUserId)
-    {
-        await _context.Likes.AddAsync(new UserLike
-        {
-            SourceUserId = sourceUserId,
-            TargetUserId = targetUserId
-        });
-    }
 }
