@@ -1,0 +1,8 @@
+<div class="p-4 shadow-black shadow-lg flex w-40 flex-col justify-center items-center rounded">
+  <span>{{user.username}}</span>
+  <img [src]="user.profilePicture"
+    style="width: 8rem; height: 8rem; margin:1rem auto; object-fit: cover; border-radius: 50%"
+    [alt]="'No profile picture yet!'">
+  <span class="w-32 whitespace-nowrap paragraph-ellipsis text-ellipsis overflow-hidden" [innerHTML]="user.description"></span>
+  <br>
+</div>

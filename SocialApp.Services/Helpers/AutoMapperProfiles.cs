@@ -11,6 +11,8 @@ public class AutoMapperProfiles : Profile
         CreateMap<RegisterDto, AppUser>();
         CreateMap<UpdateProfileDto, AppUser>();
         CreateMap<AppUser, ProfileDto>();
+        CreateMap<UserLike, UserLikeDto>();
+        CreateMap<AppUser, UserDto>();
     }
 
 }

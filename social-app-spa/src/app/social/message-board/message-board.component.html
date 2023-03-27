@@ -1,3 +1,5 @@
-<h1 class="text-3xl font-bold underline">
-  Hello world!
-</h1>
+<br>
+<div class="p-4 shadow-black shadow-lg rounded space-x-2 flex flex-row justify-start items-center">
+  <user-card [user]="appUser" *ngFor="let appUser of appUsers$ | async">
+  </user-card>
+</div>

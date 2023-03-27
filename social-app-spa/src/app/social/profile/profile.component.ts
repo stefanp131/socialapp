@@ -49,12 +49,12 @@ export class ProfileComponent implements OnInit {
           data?.profilePicture ?? '../../../assets/empty-profile-pic.png';
 
         this.description = toHTML(JSON.parse(
-          data?.description) ?? JSON.stringify(toDoc(''))
+          !data?.description ? JSON.stringify(toDoc('')) : data.description)
         );
 
         this.profileForm = this.formBuilder.group({
           description: [
-            JSON.parse(data?.description ?? JSON.stringify(toDoc(''))),
+            JSON.parse(!data?.description ? JSON.stringify(toDoc('')) : data.description),
           ],
         });
       });

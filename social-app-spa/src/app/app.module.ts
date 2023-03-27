@@ -14,9 +14,10 @@ import { MessageBoardComponent } from './social/message-board/message-board.comp
 import { ProfileComponent } from './social/profile/profile.component';
 import { HomeComponent } from './home/home.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { UserCardComponent } from './social/user-card/user-card.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, LoginComponent, RegisterComponent, MessageBoardComponent, ProfileComponent, HomeComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, LoginComponent, RegisterComponent, MessageBoardComponent, ProfileComponent, HomeComponent, UserCardComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

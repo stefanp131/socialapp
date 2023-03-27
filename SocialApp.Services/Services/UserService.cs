@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Services.DTOs;
+using Services.Interfaces;
 using SocialApp.DataAccess.Interfaces;
 
 namespace Services.Services;
 
-public class UserService
+public class UserService: IUserService
 {
     private readonly IUsersRepository _usersRepository;
     private readonly ILikesRepository _likesRepository;
