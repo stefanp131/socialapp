@@ -18,11 +18,15 @@ public class UserRepository : IUsersRepository
 
     public async Task<AppUser> GetUserByIdAsync(int id)
     {
-        return await _context.Users.Include(user => user.LikedByUsers).FirstOrDefaultAsync(user => user.Id == id);
+        return await _context.Users
+            .Include(user => user.LikedByUsers)
+            .FirstOrDefaultAsync(user => user.Id == id);
     }
 
     public async Task<List<AppUser>> GetAllUsersAsync()
     {
-        return await _context.Users.ToListAsync();
+        return await _context.Users
+            .Include(user => user.LikedByUsers)
+            .ToListAsync();
     }
 }

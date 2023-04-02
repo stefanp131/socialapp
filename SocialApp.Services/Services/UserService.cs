@@ -44,4 +44,10 @@ public class UserService: IUserService
         await _likesRepository.CreateLikeAsync(sourceUserId, targetUserId);
         await _unitOfWork.Complete();
     }
+
+    public async Task DeleteLikeAsync(int sourceUserId, int targetUserId)
+    {
+        await _likesRepository.DeleteLikeAsync(sourceUserId, targetUserId);
+        await _unitOfWork.Complete();
+    }
 }

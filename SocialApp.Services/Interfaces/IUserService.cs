@@ -8,6 +8,7 @@ namespace Services.Interfaces
     {
         Task<List<UserDto>> GetAllUsersAsync();
         Task<UserDto> GetUserByIdAsync(int id);
-        Task CreateLikeAsync(int sourceUserId, int targetUserId);        
+        Task CreateLikeAsync(int sourceUserId, int targetUserId);
+        Task DeleteLikeAsync(int sourceUserId, int targetUserId);
     }
 }

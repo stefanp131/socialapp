@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using SocialApp.DataAccess.Data;
 using SocialApp.DataAccess.Entities;
 using SocialApp.DataAccess.Interfaces;
@@ -21,5 +22,11 @@ public class LikesRepository : ILikesRepository
             SourceUserId = sourceUserId,
             TargetUserId = targetUserId
         });
+    }
+
+    public async Task DeleteLikeAsync(int sourceUserId, int targetUserId)
+    {
+        var like =  await _context.Likes.FirstOrDefaultAsync(like => like.SourceUserId == sourceUserId && like.TargetUserId == targetUserId);
+        _context.Likes.Remove(like);
     }
 }

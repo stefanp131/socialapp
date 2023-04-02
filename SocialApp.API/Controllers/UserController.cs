@@ -35,11 +35,19 @@ namespace SocialApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateLike(int sourceId, int targetId)
+        public async Task<ActionResult> CreateLike([FromBody] UserLikeDto userLikeDto)
         {
-            await this.userService.CreateLikeAsync(sourceId, targetId);
+            await this.userService.CreateLikeAsync(userLikeDto.SourceUserId, userLikeDto.TargetUserId);
 
             return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeleteLike([FromQuery] int sourceId,[FromQuery] int targetId)
+        {
+            await this.userService.DeleteLikeAsync(sourceId, targetId);
+
+            return NoContent();
         }
     }
 }

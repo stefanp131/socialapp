@@ -5,4 +5,5 @@
     [alt]="'No profile picture yet!'">
   <span class="w-32 whitespace-nowrap paragraph-ellipsis text-ellipsis overflow-hidden" [innerHTML]="user.description"></span>
   <br>
+  <button mat-raised-button (click)="toggleLike()" [color]="like ? 'accent' : 'primary'">Like {{likesCount}}</button>
 </div>
