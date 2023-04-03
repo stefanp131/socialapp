@@ -15,7 +15,7 @@
           <mat-form-field appearance="outline">
             <input matInput type="password" #confirmPassword placeholder="Confirm password" />
           </mat-form-field>
-          <button color="primary" mat-raised-button
+          <button class="bg-fuchsia-400 hover:bg-fuchsia-500" mat-raised-button
             [disabled]="confirmPassword.value !== password.value || !registerForm.valid">
             Register
           </button>

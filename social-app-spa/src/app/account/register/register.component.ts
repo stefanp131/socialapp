@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
   register() {
     this.accountService.register(this.registerForm.value).subscribe({
       next: () => {
-        this.router.navigate(['/message-board'])
+        this.router.navigate(['/board'])
         this.snackBar.open('Successfully registered in!', 'Dismiss', {
           duration: 5000,
         });

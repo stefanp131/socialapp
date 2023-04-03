@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.accountService.login(this.loginForm.value).subscribe({
       next: () => {
-        this.router.navigate(['/message-board']);
+        this.router.navigate(['/board']);
         this.snackBar.open('Successfully logged in!', 'Dismiss', {
           duration: 5000,
         });

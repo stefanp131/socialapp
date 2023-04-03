@@ -1,14 +1,14 @@
-<mat-toolbar>
+<mat-toolbar class="bg-violet-400">
   <div class="toolbar-content" fxLayout="row" fxLayoutAlign="space-between center">
     <div class="menu" fxLayout="row" fxLayoutGap="1.5rem">
       <span routerLink="/">{{accountService.currentUserSource.value ? "Welcome " + accountService.currentUserSource.value.username + "!" : "Welcome!" }}</span>
-      <button mat-raised-button color="accent" *ngIf="accountService.currentUserSource.value" routerLink="/profile">Profile</button>
-      <button mat-raised-button color="accent" *ngIf="accountService.currentUserSource.value" routerLink="/board">Board</button>
+      <button mat-raised-button class="bg-fuchsia-400 hover:bg-fuchsia-500" *ngIf="accountService.currentUserSource.value" routerLink="/profile">Profile</button>
+      <button mat-raised-button class="bg-fuchsia-400 hover:bg-fuchsia-500" *ngIf="accountService.currentUserSource.value" routerLink="/board">Board</button>
     </div>
     <div class="account-menu" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1.5rem">
-      <button mat-raised-button color="primary" *ngIf="!accountService.currentUserSource.value" routerLink="/login">Login</button>
-      <button mat-raised-button color="warn" *ngIf="accountService.currentUserSource.value" (click)="logout()">Logout</button>
-      <button mat-raised-button color="accent" *ngIf="!accountService.currentUserSource.value" routerLink="/register">Register</button>
+      <button mat-raised-button class="bg-fuchsia-400 hover:bg-fuchsia-500" *ngIf="!accountService.currentUserSource.value" routerLink="/login">Login</button>
+      <button mat-raised-button class="bg-cyan-400 hover:bg-cyan-500" *ngIf="accountService.currentUserSource.value" (click)="logout()">Logout</button>
+      <button mat-raised-button class="bg-fuchsia-400 hover:bg-fuchsia-500" *ngIf="!accountService.currentUserSource.value" routerLink="/register">Register</button>
     </div>
   </div>
 </mat-toolbar>

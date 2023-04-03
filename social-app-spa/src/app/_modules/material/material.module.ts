@@ -10,6 +10,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatBadgeModule} from '@angular/material/badge';
+
 
 @NgModule({
   declarations: [],
@@ -25,6 +27,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatBadgeModule
+    
   ],
   exports: [
     CommonModule,
@@ -38,6 +42,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatBadgeModule
   ],
 })
 export class MaterialModule {}

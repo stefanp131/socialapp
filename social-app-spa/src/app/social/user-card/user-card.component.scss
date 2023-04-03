@@ -4,3 +4,8 @@ p:first-child {
   white-space: nowrap !important;
   width: 8rem !important;
 }
+
+.mat-badge-content {
+  transition: none;
+  background-color: rgb(232 121 249);
+}

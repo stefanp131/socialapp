@@ -1,9 +1,13 @@
-<div class="p-4 shadow-black shadow-lg flex w-40 flex-col justify-center items-center rounded">
-  <span>{{user.username}}</span>
-  <img [src]="user.profilePicture"
-    style="width: 8rem; height: 8rem; margin:1rem auto; object-fit: cover; border-radius: 50%"
-    [alt]="'No profile picture yet!'">
-  <span class="w-32 whitespace-nowrap paragraph-ellipsis text-ellipsis overflow-hidden" [innerHTML]="user.description"></span>
+<div class="p-4 shadow-black shadow-md flex w-40 flex-col justify-center items-center rounded bg-violet-400">
+  <span class="flex justify-center items-center text-xl">{{user.username}}</span>
+  <button class="flex justify-center items-center w-24 h-24" mat-fab [matBadge]="likesCount"
+    [matBadgeHidden]="likesCount === 0" [matTooltip]="like ? 'Click to unlike': 'Click to like'" (click)="toggleLike()"
+    [ngClass]="{'bg-fuchsia-400': like, 'bg-stone-400': !like}">
+    <img [src]="user.profilePicture" class="w-20 h-20"
+      style="object-fit: cover; border-radius: 50%" [alt]="'No profile picture yet!'" />
+  </button>
+
   <br>
-  <button mat-raised-button (click)="toggleLike()" [color]="like ? 'accent' : 'primary'">Like {{likesCount}}</button>
+  <button class="flex justify-center items-center" mat-raised-button>go to profile
+    <mat-icon>account_circle</mat-icon></button>
 </div>
