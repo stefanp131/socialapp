@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { AppUser } from 'src/app/_models/AppUser';
 import { AccountService } from 'src/app/_services/account.service';
-import { MessageBoardService } from 'src/app/_services/message-board.service';
+import { BoardService } from 'src/app/_services/board.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class UserCardComponent implements OnInit {
   like = false;
   likesCount = 0;
   constructor(
-    private messageBoardService: MessageBoardService,
+    private boardService: BoardService,
     private userService: UserService,
     private accountService: AccountService
   ) {}
@@ -38,13 +38,13 @@ export class UserCardComponent implements OnInit {
       this.userService
         .createLikeForUser(this.user.id)
         .subscribe(() =>
-          this.messageBoardService.setToggleLikeAction(this.user.id)
+          this.boardService.setToggleLikeAction()
         );
     } else {
       this.userService
         .deleteLikeForUser(this.user.id)
         .subscribe(() =>
-          this.messageBoardService.setToggleLikeAction(this.user.id)
+          this.boardService.setToggleLikeAction()
         );
     }
   }

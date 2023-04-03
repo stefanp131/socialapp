@@ -3,7 +3,7 @@
     <div class="menu" fxLayout="row" fxLayoutGap="1.5rem">
       <span routerLink="/">{{accountService.currentUserSource.value ? "Welcome " + accountService.currentUserSource.value.username + "!" : "Welcome!" }}</span>
       <button mat-raised-button color="accent" *ngIf="accountService.currentUserSource.value" routerLink="/profile">Profile</button>
-      <button mat-raised-button color="accent" *ngIf="accountService.currentUserSource.value" routerLink="/message-board">Message Board</button>
+      <button mat-raised-button color="accent" *ngIf="accountService.currentUserSource.value" routerLink="/board">Board</button>
     </div>
     <div class="account-menu" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1.5rem">
       <button mat-raised-button color="primary" *ngIf="!accountService.currentUserSource.value" routerLink="/login">Login</button>

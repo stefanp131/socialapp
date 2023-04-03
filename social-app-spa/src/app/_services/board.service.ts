@@ -4,11 +4,11 @@ import { Subject } from "rxjs";
 @Injectable({
   providedIn: 'root',
 })
-export class MessageBoardService {
-  public toggleLikeAction: Subject<number> = new Subject<number>();
+export class BoardService {
+  public toggleLikeAction: Subject<void> = new Subject<void>();
 
-  setToggleLikeAction(sourceId: number) {
-    this.toggleLikeAction.next(sourceId);
+  setToggleLikeAction() {
+    this.toggleLikeAction.next();
   }
 
   getToggleLikeAction() {

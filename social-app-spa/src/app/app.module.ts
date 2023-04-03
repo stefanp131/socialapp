@@ -10,14 +10,14 @@ import { SharedModule } from './_modules/shared/shared.module';
 import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MessageBoardComponent } from './social/message-board/message-board.component';
+import { BoardComponent } from './social/board/board.component';
 import { ProfileComponent } from './social/profile/profile.component';
 import { HomeComponent } from './home/home.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { UserCardComponent } from './social/user-card/user-card.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, LoginComponent, RegisterComponent, MessageBoardComponent, ProfileComponent, HomeComponent, UserCardComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, LoginComponent, RegisterComponent, BoardComponent, ProfileComponent, HomeComponent, UserCardComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
