@@ -20,7 +20,6 @@ import { UserService } from 'src/app/_services/user.service';
 })
 export class BoardComponent implements OnInit {
   cachedUsers: AppUser[];
-  appUsersSearch$: Observable<AppUser[]>;
   appUsersSearchWithLike$: Observable<AppUser[]>;
   searchForm: FormGroup;
 
@@ -35,7 +34,7 @@ export class BoardComponent implements OnInit {
       searchInput: [''],
     });
 
-    this.appUsersSearch$ = merge(
+    const searchAndInit$ = merge(
       this.userService
         .getUsers()
 
@@ -54,7 +53,7 @@ export class BoardComponent implements OnInit {
       )
     );
 
-    const toggleLikeAction = this.boardService.getToggleLikeAction().pipe(
+    const toggleLikeAction$ = this.boardService.getToggleLikeAction().pipe(
       switchMap((id) =>
         this.userService.getUser(id).pipe(
           map((user) => {
@@ -75,8 +74,8 @@ export class BoardComponent implements OnInit {
     );
 
     this.appUsersSearchWithLike$ = merge(
-      this.appUsersSearch$,
-      toggleLikeAction
+      searchAndInit$,
+      toggleLikeAction$
     );
   }
 
