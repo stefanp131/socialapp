@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import { Editor, schema, toDoc, toHTML, Toolbar } from 'ngx-editor';
 import { Profile } from 'src/app/_models/Profile';
 import { AccountService } from 'src/app/_services/account.service';
@@ -16,6 +17,7 @@ export class ProfileComponent implements OnInit {
   imageSrc;
   description;
   isReadonly = true;
+  profileId;
 
   editor: Editor;
   toolbar: Toolbar = [
@@ -32,8 +34,11 @@ export class ProfileComponent implements OnInit {
   constructor(
     public accountService: AccountService,
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
+  ) {
+    this.profileId = this.route.snapshot.params['id'];
+  }
 
   ngOnInit(): void {
     this.editor = new Editor({ schema: schema });
@@ -43,24 +48,34 @@ export class ProfileComponent implements OnInit {
 
   private getProfile() {
     this.accountService
-      .getProfile(this.accountService.currentUserSource.value.id)
+      .getProfile(
+        this.profileId
+          ? this.profileId
+          : this.accountService.currentUserSource.value.id
+      )
       .subscribe((data) => {
         this.imageSrc =
           data?.profilePicture ?? '../../../assets/empty-profile-pic.png';
 
-        this.description = toHTML(JSON.parse(
-          !data?.description ? JSON.stringify(toDoc('')) : data.description)
+        this.description = toHTML(
+          JSON.parse(
+            !data?.description ? JSON.stringify(toDoc('')) : data.description
+          )
         );
 
         this.profileForm = this.formBuilder.group({
           description: [
-            JSON.parse(!data?.description ? JSON.stringify(toDoc('')) : data.description),
+            JSON.parse(
+              !data?.description ? JSON.stringify(toDoc('')) : data.description
+            ),
           ],
         });
       });
   }
 
   public updateProfile() {
+    if (this.profileId) return;
+
     const profile: Profile = {
       profilePicture: this.imageSrc,
       ...this.profileForm.value,

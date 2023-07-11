@@ -24,7 +24,7 @@
   <mat-card class="image">
     <mat-card-title>{{accountService.currentUserSource.value.username}}'s Profile</mat-card-title>
     <mat-card-content>
-      <button mat-raised-button (click)="toggleReadonly()">Enable edit</button>
+      <button mat-raised-button *ngIf="!profileId" (click)="toggleReadonly()">Enable edit</button>
       <div fxLayout="column" fxLayoutAlign="center center">
         <img [src]="imageSrc"
           style="width: 20rem; height: 20rem; margin:1rem auto; object-fit: cover; border-radius: 50%"

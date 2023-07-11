@@ -8,6 +8,6 @@
   </button>
 
   <br>
-  <button class="flex justify-center items-center" mat-raised-button>go to profile
+  <button class="flex justify-center items-center" [routerLink]="['/profile/' + user.id]" mat-raised-button>go to profile
     <mat-icon>account_circle</mat-icon></button>
 </div>
