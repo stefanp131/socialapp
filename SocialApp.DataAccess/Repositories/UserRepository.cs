@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SocialApp.DataAccess.Data;
@@ -21,6 +22,14 @@ public class UserRepository : IUsersRepository
         return await _context.Users
             .Include(user => user.LikedByUsers)
             .FirstOrDefaultAsync(user => user.Id == id);
+    }
+    
+    public async Task<List<AppUser>> GetUsersByStringTermAsync(string stringTerm)
+    {
+        return await _context.Users
+            .Include(user => user.LikedByUsers)
+            .Where(user => user.UserName.Contains(stringTerm))
+            .ToListAsync();
     }
 
     public async Task<List<AppUser>> GetAllUsersAsync()

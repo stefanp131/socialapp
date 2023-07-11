@@ -1,13 +1,15 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core';
-import { toHTML } from 'ngx-editor';
-import { concatMap, map, Observable, of, Subscription, switchMap } from 'rxjs';
+  debounceTime,
+  map,
+  merge,
+  Observable,
+  Subscription,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { AppUser } from 'src/app/_models/AppUser';
-import { AppUserLike } from 'src/app/_models/AppUserLike';
 import { BoardService } from 'src/app/_services/board.service';
 import { UserService } from 'src/app/_services/user.service';
 
@@ -17,28 +19,65 @@ import { UserService } from 'src/app/_services/user.service';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
-  appUsers$: Observable<AppUser[]>;
-  messageBoardServiceSubscription: Subscription;
+  cachedUsers: AppUser[];
+  appUsersSearch$: Observable<AppUser[]>;
+  appUsersSearchWithLike$: Observable<AppUser[]>;
+  searchForm: FormGroup;
+
   constructor(
     public userService: UserService,
-    private boardService: BoardService
+    private boardService: BoardService,
+    private formBuilder: FormBuilder
   ) {}
 
-  classInitialised = false;
-
   ngOnInit(): void {
-    this.appUsers$ = this.userService
-      .getUsers()
-      .pipe(map((users) => this.mapUsers(users)));
+    this.searchForm = this.formBuilder.group({
+      searchInput: [''],
+    });
 
-    this.boardService
-      .getToggleLikeAction()
-      .pipe(
-        switchMap(() =>
-          this.userService.getUsers().pipe(map((users) => this.mapUsers(users)))
+    this.appUsersSearch$ = merge(
+      this.userService
+        .getUsers()
+
+        .pipe(
+          map((users) => this.mapUsers(users)),
+          tap((users) => (this.cachedUsers = users))
+        ),
+      this.searchForm.get('searchInput').valueChanges.pipe(
+        debounceTime(400),
+        switchMap((searchValue) =>
+          this.userService.getUsersByStringTerm(searchValue).pipe(
+            map((users) => this.mapUsers(users)),
+            tap((users) => (this.cachedUsers = users))
+          )
         )
       )
-      .subscribe((users) => (this.appUsers$ = of(users)));
+    );
+
+    const toggleLikeAction = this.boardService.getToggleLikeAction().pipe(
+      switchMap((id) =>
+        this.userService.getUser(id).pipe(
+          map((user) => {
+            const listUser = this.cachedUsers.find((x) => x.id === user.id);
+            console.log(listUser);
+            const replaceUser: AppUser = {
+              ...user,
+              profilePicture:
+                user?.profilePicture ?? '../../../assets/empty-profile-pic.png',
+            };
+
+            this.cachedUsers[this.cachedUsers.indexOf(listUser)] = replaceUser;
+
+            return this.cachedUsers;
+          })
+        )
+      )
+    );
+
+    this.appUsersSearchWithLike$ = merge(
+      this.appUsersSearch$,
+      toggleLikeAction
+    );
   }
 
   private mapUsers(users: AppUser[]): AppUser[] {
@@ -46,13 +85,6 @@ export class BoardComponent implements OnInit {
       ...user,
       profilePicture:
         user?.profilePicture ?? '../../../assets/empty-profile-pic.png',
-      description: user.description
-        ? toHTML(JSON.parse(user.description))
-        : 'No description yet',
     }));
-  }
-
-  identify(index: number, item: AppUser): number {
-    return item.id;
   }
 }

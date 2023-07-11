@@ -38,13 +38,13 @@ export class UserCardComponent implements OnInit {
       this.userService
         .createLikeForUser(this.user.id)
         .subscribe(() =>
-          this.boardService.setToggleLikeAction()
+          this.boardService.setToggleLikeAction(this.user.id)
         );
     } else {
       this.userService
         .deleteLikeForUser(this.user.id)
         .subscribe(() =>
-          this.boardService.setToggleLikeAction()
+          this.boardService.setToggleLikeAction(this.user.id)
         );
     }
   }

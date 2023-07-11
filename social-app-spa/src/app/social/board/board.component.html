@@ -1,5 +1,26 @@
 <br>
-<div class="p-4 space-x-2 flex flex-row justify-start items-center">
-  <user-card [user]="appUser" *ngFor="let appUser of appUsers$ | async">
-  </user-card>
+<div class="w-full flex flex-row justify-center items-center">
+  <mat-card class="bg-violet-400 m-0 pb-0 w-fit">
+    <form class="flex flex-col" [formGroup]="searchForm">
+      <mat-form-field appearance="outline">
+        <mat-label>
+          Search by username
+        </mat-label> <input matInput formControlName="searchInput" type="text">
+      </mat-form-field>
+    </form>
+  </mat-card>
 </div>
+
+<ng-container *ngIf="appUsersSearchWithLike$ | async as appUsersSearch">
+  <div *ngIf="appUsersSearch.length !== 0; else loading" class="p-4 space-x-2 flex flex-row justify-start items-center">
+    <user-card [user]="appUser" *ngFor="let appUser of appUsersSearch">
+    </user-card>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <br>
+  <mat-card class="bg-violet-400">
+    No users matching the given input.
+  </mat-card>
+</ng-template>

@@ -24,6 +24,15 @@ export class UserService {
     return this.http.get<AppUser>(this.baseUrl + 'user/' + id);
   }
 
+  getUsersByStringTerm(stringTerm: string): Observable<AppUser[]> {
+    let params = new HttpParams();
+    if (stringTerm) {
+      params = params.append('stringTerm', stringTerm);
+    }
+
+    return this.http.get<AppUser[]>(this.baseUrl + 'user', { params: params });
+  }
+
   createLikeForUser(targetUserId: number) {
     return this.http.post(this.baseUrl + 'user', {
       sourceUserId: this.accountService.currentUserSource.value.id,

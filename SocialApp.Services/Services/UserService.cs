@@ -38,6 +38,14 @@ public class UserService: IUserService
 
         return userDto;
     }
+    
+    public async Task<List<UserDto>> GetUsersByStringTermAsync(string stringTerm)
+    {
+        var users = await _usersRepository.GetUsersByStringTermAsync(stringTerm);
+        var userDtos = _mapper.Map<List<UserDto>>(users);
+
+        return userDtos;
+    }
 
     public async Task CreateLikeAsync(int sourceUserId, int targetUserId)
     {

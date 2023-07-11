@@ -16,8 +16,14 @@ namespace SocialApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UserDto>>> GetAllUsers()
+        public async Task<ActionResult<List<UserDto>>> GetAllUsers([FromQuery] string stringTerm)
         {
+            if (stringTerm != null)
+            {
+                var users = await this.userService.GetUsersByStringTermAsync(stringTerm);
+            
+                return Ok(users);
+            }
             return await this.userService.GetAllUsersAsync();
         }
 

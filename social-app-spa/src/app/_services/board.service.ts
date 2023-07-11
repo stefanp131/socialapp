@@ -5,10 +5,10 @@ import { Subject } from "rxjs";
   providedIn: 'root',
 })
 export class BoardService {
-  public toggleLikeAction: Subject<void> = new Subject<void>();
+  public toggleLikeAction: Subject<number> = new Subject<number>();
 
-  setToggleLikeAction() {
-    this.toggleLikeAction.next();
+  setToggleLikeAction(id: number) {
+    this.toggleLikeAction.next(id);
   }
 
   getToggleLikeAction() {

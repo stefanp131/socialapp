@@ -8,4 +8,5 @@ public interface IUsersRepository
 {
     Task<AppUser> GetUserByIdAsync(int id);
     Task<List<AppUser>> GetAllUsersAsync();
+    Task<List<AppUser>> GetUsersByStringTermAsync(string stringTerm);
 }
