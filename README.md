@@ -11,6 +11,6 @@ The project is a social app and has the following features:
 - you can send messages in real time*.
 - notifications in real time*.
 
-The project was built with .NET 6 - Web API, ASP.NET Identity, EF Core, SQLite - and Angular 14 - Angular material, RxJS, HTML 5, SCSS.
+The project was built with .NET 6 - Web API, ASP.NET Identity, EF Core, POSTGRES - and Angular 14 - Angular material, RxJS, HTML 5, SCSS, Tailwindcss.
 
 *To be done in near future.
