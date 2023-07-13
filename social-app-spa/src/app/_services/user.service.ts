@@ -50,4 +50,25 @@ export class UserService {
 
     return this.http.delete(this.baseUrl + 'user', { params: params });
   }
+
+  createViewForUser(loggedInUser: number, viewedProfileId: number, userName) {
+    const view = {
+      loggedInUser: loggedInUser,
+      viewedProfileId: viewedProfileId,
+      userName: userName,
+    };
+
+    return this.http.post(this.baseUrl + 'user/view', view);
+  }
+
+  clearViewForUser(loggedInUser: number) {
+    let params = new HttpParams();
+    params = params.append('loggedInUser', loggedInUser);
+
+    const view = {
+      loggedInUser: loggedInUser,
+    };
+
+    return this.http.delete(this.baseUrl + 'user/view', { params: params });
+  }
 }

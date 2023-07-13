@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppUser } from 'src/app/_models/AppUser';
 import { AccountService } from 'src/app/_services/account.service';
 import { BoardService } from 'src/app/_services/board.service';
@@ -18,7 +19,8 @@ export class UserCardComponent implements OnInit {
   constructor(
     private boardService: BoardService,
     private userService: UserService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -26,7 +28,8 @@ export class UserCardComponent implements OnInit {
 
     if (this.user.likedByUsers.length !== 0) {
       this.like = this.user.likedByUsers.some(
-        (user) => user.sourceUserId == this.accountService.currentUserSource.value.id
+        (user) =>
+          user.sourceUserId == this.accountService.currentUserSource.value.id
       );
     }
   }
@@ -37,15 +40,21 @@ export class UserCardComponent implements OnInit {
     if (this.like) {
       this.userService
         .createLikeForUser(this.user.id)
-        .subscribe(() =>
-          this.boardService.setToggleLikeAction(this.user.id)
-        );
+        .subscribe(() => this.boardService.setToggleLikeAction(this.user.id));
     } else {
       this.userService
         .deleteLikeForUser(this.user.id)
-        .subscribe(() =>
-          this.boardService.setToggleLikeAction(this.user.id)
-        );
+        .subscribe(() => this.boardService.setToggleLikeAction(this.user.id));
     }
+  }
+
+  goToProfile(viewedProfileId: number) {
+    this.userService
+      .createViewForUser(
+        this.accountService.currentUserSource.value.id,
+        viewedProfileId,
+        this.accountService.currentUserSource.value.username
+      )
+      .subscribe(() => this.router.navigate(['./profile', viewedProfileId]));
   }
 }

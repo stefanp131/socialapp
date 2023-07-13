@@ -11,5 +11,8 @@ namespace Services.Interfaces
         Task<List<UserDto>> GetUsersByStringTermAsync(string stringTerm);
         Task CreateLikeAsync(int sourceUserId, int targetUserId);
         Task DeleteLikeAsync(int sourceUserId, int targetUserId);
+        Task SaveViewsAsync(int loggedInUser, int viewedProfileId, string userName);
+        Task ClearViewsAsync(int loggedInUser);
+
     }
 }

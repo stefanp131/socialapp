@@ -1,7 +1,9 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Services.DTOs;
 using Services.Interfaces;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SocialApp.API.Controllers
@@ -44,6 +46,22 @@ namespace SocialApp.API.Controllers
         public async Task<ActionResult> CreateLike([FromBody] UserLikeDto userLikeDto)
         {
             await this.userService.CreateLikeAsync(userLikeDto.SourceUserId, userLikeDto.TargetUserId);
+
+            return Ok();
+        }
+        
+        [HttpPost("view")]
+        public async Task<ActionResult> CreateView([FromBody] ViewDto viewDto)
+        {
+            await userService.SaveViewsAsync(viewDto.LoggedInUser, viewDto.ViewedProfileId, viewDto.UserName);
+
+            return Ok();
+        }
+        
+        [HttpDelete("view")]
+        public async Task<ActionResult> ClearViews([FromQuery] int loggedInUser)
+        {
+            await userService.ClearViewsAsync(loggedInUser);
 
             return Ok();
         }
